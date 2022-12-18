@@ -7,7 +7,6 @@ local ufo_config = require('plugins.nvim-ufo')
 if not mason_ok or not mason_lsp_ok then
   return
 end
-
 mason.setup {
   ui = {
     -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
@@ -17,8 +16,9 @@ mason.setup {
 
 mason_lsp.setup {
   -- A list of servers to automatically install if they're not already installed
-  ensure_installed = { "bashls", "cssls", "eslint", "graphql", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver",
-    "vuels", "volar", "prismals" },
+  ensure_installed = { "bash-language-server", "css-lsp", "eslint-lsp", "graphql-language-service-cli", "html-lsp",
+    "json-lsp", "lua-language-server", "tailwindcss-language-server", "typescript-language-server", "jdtls", 
+    "vetur-vls", "vue-language-server", "chrome-debug-adapter", "node-debug2-adapter", "prisma-language-server" },
 
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
   -- This setting has no relation with the `ensure_installed` setting.
@@ -76,6 +76,15 @@ lspconfig.tailwindcss.setup {
   settings = require('lsp.servers.tailwindcss').settings,
 }
 
+lspconfig.jdtls.setup {
+  capabilities = require('lsp.servers.java').capabilities,
+  filetypes = require('lsp.servers.java').filetypes,
+  handlers = handlers,
+  init_options = require('lsp.servers.java').init_options,
+  on_attach = require('lsp.servers.java').on_attach,
+  settings = require('lsp.servers.java').settings,
+}
+
 lspconfig.cssls.setup {
   capabilities = capabilities,
   handlers = handlers,
@@ -111,7 +120,7 @@ lspconfig.vuels.setup {
   on_attach = on_attach,
 }
 
-for _, server in ipairs { "bashls", "emmet_ls", "graphql", "html", "volar", "prismals" } do
+for _, server in ipairs { "bashls", "graphql", "html", "volar", "prismals", "clangd", "cmake", "clojure_lsp", "elixirls", "golangci_lint_ls", "gopls", "hls", "jdtls", "rust_analyzer", "vls", "zls" } do
   lspconfig[server].setup {
     on_attach = on_attach,
     capabilities = capabilities,
